@@ -1,0 +1,3 @@
+Using HTML5 audio, it allows to play music synchronized among computers with the same IP.
+
+This project contains the client and the server. The client is plain HTML, CSS and JavaScript; the server uses node.js and socket.io.
