@@ -80,6 +80,9 @@ legend {
 	background:rgba(220,20,60, 0.8) !important;
 	border:1px solid rgba(220,20,60,0.8) !important;
 }
+.author {
+	cursor:pointer;
+}
 </style>
 <script src="http://remu.nodester.com:80/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="remu.js"></script>
@@ -88,10 +91,10 @@ legend {
 <div id="screen" style="width:100%;height:100%;position:fixed;background:rgb(200,200,200,0.6);display:none;"></div>
 <div class="view" id="prelogin">
 <div style="text-align:center;padding-right:20%;padding-left:20%;" class="vcenter">
-<h2>What's that?</h2>
-Using HTML5's <tt>audio</tt> tag, WebSockets (in fact, socket.io) and node.js, this allows you to listen to music more loudly, with all the computers connected synchronized.
+<h2>What's this?</h2>
+Using HTML5's <tt>audio</tt> tag, WebSockets (in fact, socket.io) and node.js, this allows you synchronize the audio output of several computers. It can either be used to have several people follow the same presentation, or just to hear music more loudly in a party.
 <h2>How the process works</h2>
-<p>All the computers connected with the same IP address will be automagically grouped, and each will be able to control the global settings such as volume.</p>
+<p>All the computers connected with the same IP address (typically, sharing a source NAT) will be automagically grouped, and each will be able to control the global settings such as volume.</p>
 <p><button onclick="remu.showInGroup();">Skip (and don't show this anymore)</button></p>
 <div id="msg"></div>
 </div>
@@ -110,6 +113,12 @@ Using HTML5's <tt>audio</tt> tag, WebSockets (in fact, socket.io) and node.js, t
 <td style="width:10%;"><button onclick="remu.URLchosen();" style="width:100%;">OK</button></td>
 </tr>
 </table>
+<fieldset>
+<legend>Or choose some public domain audio</legend>
+<img src="http://upload.wikimedia.org/wikipedia/commons/6/6f/Beethoven.jpg" height="200" title="Moonlight sonata - Ludwig van Beethoven (from musopen.com and hosted at Wikimedia Commons)" data-url="http://upload.wikimedia.org/wikipedia/commons/4/48/Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg" class="author">
+<img src="http://upload.wikimedia.org/wikipedia/commons/f/fb/Dvorak1.jpg" height="200" title="The New World Symphony - Antonin Dvorak (from musopen.com and hosted at Wikimedia Commons)" data-url="http://upload.wikimedia.org/wikipedia/commons/1/17/Antonin_Dvorak_-_symphony_no._9_in_e_minor_%27from_the_new_world%27%2C_op._95_-_iv._allegro_con_fuoco.ogg" class="author">
+<img src="http://upload.wikimedia.org/wikipedia/commons/9/9d/RichardWagner.jpg" height="200" title="Ride of the Valkyries - Richard Wagner (from Edison Records/National Park Service and hosted at Wikimedia Commons)" data-url="http://upload.wikimedia.org/wikipedia/commons/a/ad/Richard_Wagner_-_Ride_of_the_Valkyries_original.ogg" class="author">
+</fieldset>
 </fieldset>
 <fieldset id="waiting" style="display:none;">
 <legend>Please, wait</legend>
