@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Remote HTML5 Music</title>
+<style type="text/css">
+body {
+	font-family:sans-serif;
+}
+.view {
+	height:80%;
+	width:80%;
+	position:absolute;
+	left:10%;
+	top:10%;
+	border:3px solid steelblue;
+	background: rgba(176, 196, 222,  0.5); /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(176, 196, 222,  0.5) 1%, rgba(70, 130, 180, 0.8) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,rgba(176, 196, 222,  0.5)), color-stop(100%,rgba(70, 130, 180, 0.8))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(176, 196, 222,  0.5) 1%,rgba(70, 130, 180, 0.8) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(176, 196, 222,  0.5) 1%,rgba(70, 130, 180, 0.8) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(176, 196, 222,  0.5) 1%,rgba(70, 130, 180, 0.8) 100%); /* IE10+ */
+
+	border-radius:10px;
+	padding:10px;
+	display:none;
+}
+#prelogin {
+	display:block;
+}
+#prelogin input, #prelogin button, .contents input, .contents button {
+	padding:2px;
+	font-size:120%;
+	text-align:center;
+}
+.tryagain {
+	border:2px solid red;
+	background:rgba(255,0,0,0.1);
+}
+#tabs {
+	border-bottom:1px solid gray;
+	border-collapse:collapse;
+	padding-left:10px;
+}
+#tabs button {
+	border:1px solid gray;
+	background:gray;
+	padding:5px;
+	margin:0px;
+}
+.selected {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border:2px solid gray;
+	background:lightgray !important;
+	font-size:120%;
+}
+.contents {
+	padding:10px;
+	text-align:center;
+}
+fieldset {
+	background:rgba(255,255,255,0.8);
+	margin:5px;
+}
+legend {
+	padding:5px;
+	background:rgba(176, 196, 222,0.8);
+	border:1px solid rgba(176, 196, 222,0.8);
+	border-radius:5px;
+	font-weight:bold;
+}
+.error {
+	background:rgba(250,128,114,0.8) !important;
+	display:none;
+}
+.error legend {
+	background:rgba(220,20,60, 0.8) !important;
+	border:1px solid rgba(220,20,60,0.8) !important;
+}
+</style>
+<script src="http://remu.nodester.com:80/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="remu.js"></script>
+</head>
+<body>
+<div id="screen" style="width:100%;height:100%;position:fixed;background:rgb(200,200,200,0.6);display:none;"></div>
+<div class="view" id="prelogin">
+<div style="text-align:center;padding-right:20%;padding-left:20%;" class="vcenter">
+<h2>What's that?</h2>
+Using HTML5's <tt>audio</tt> tag, WebSockets (in fact, socket.io) and node.js, this allows you to listen to music more loudly, with all the computers connected synchronized.
+<h2>How the process works</h2>
+<p>All the computers connected with the same IP address will be automagically grouped, and each will be able to control the global settings such as volume.</p>
+<p><button onclick="remu.showInGroup();">Skip (and don't show this anymore)</button></p>
+<div id="msg"></div>
+</div>
+</div>
+<div class="view" id="curgroup" style="text-align:center;">
+<div class="vcenter">
+<fieldset>
+<legend>Connection status</legend>
+<div id="connstatus">Right now there <span id="connections">?</span> in this group.</div>
+</fieldset>
+<fieldset id="loader">
+<legend>Choose a URL</legend>
+<table style="width:100%;">
+<tr>
+<td style="width:90%;"><input type="text" style="width:100%;" id="url"></td>
+<td style="width:10%;"><button onclick="remu.URLchosen();" style="width:100%;">OK</button></td>
+</tr>
+</table>
+</fieldset>
+<fieldset id="waiting" style="display:none;">
+<legend>Please, wait</legend>
+Waiting for all the computers to load the track for uninterrupted playback...
+</fieldset>
+<fieldset id="player" style="display:none;">
+<legend>Player (changes will be reflected)</legend>
+<div id="audioplayer"></div>
+</fieldset>
+<fieldset id="error" class="error">
+<legend>Error</legend>
+<div id="errorwhat"></div>
+</fieldset>
+</div>
+</div>
+<div class="view" id="alreadyopen">
+<div id="tabs">
+<button onclick="remu.openView('newcollection');">Group petitions</button>
+<button onclick="remu.openView('alreadyopen');" class="selected">Join existing group</button>
+</div>
+<div class="contents">
+<h2>Existing users</h2>
+Users open for connections. Click on them to ask for permission to enter the group.
+<div id="listusers">
+
+</div>
+</div>
+</div>
+<div class="view" id="wait">
+<div style="text-align:center;padding-right:20%;padding-left:20%;" class="vcenter">
+<h2>Please, wait</h2>
+</div>
+</div>
+</body>
+</html>
