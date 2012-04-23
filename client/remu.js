@@ -104,7 +104,7 @@ remu.connect = function () {
 	});
 	remu.socket.on('denyandclose', function () {
 		remu.socket.disconnect();
-		document.getElementById("connstatus").innerHTML = "Access denied to group. The music is already loaded.";
+		document.getElementById("connstatus").innerHTML = "Access denied to group. Playback already in progress.";
 		document.getElementById("loader").style.display = 'none';
 		callback();
 	});
@@ -112,6 +112,13 @@ remu.connect = function () {
 		if ((e.which||e.keyCode) == 13) {
 			remu.URLchosen();
 		}
+	}
+	var all = document.getElementsByClassName('author');
+	for (var i=0; i<all.length; i++) {
+		all[i].onclick = function () {
+			document.getElementById("url").value = this.getAttribute("data-url");
+			remu.URLchosen();
+		};
 	}
 }
 
