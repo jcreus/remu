@@ -7,6 +7,30 @@ function inArray(elem, array) {
   return false;
 }
 
+Array.prototype.remove= function(){
+    var what, a= arguments, L= a.length, ax;
+    while(L && this.length){
+        what= a[--L];
+        while((ax= this.indexOf(what))!= -1){
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+}
+
+var io = require('socket.io').listen(17058);
+
+var group = function (master) {
+  this.master = master;
+  this.slaves = [];
+}
+group.prototype.addSlave = function (s) {
+  this.slaves[this.slaves.length] = s;
+}
+group.prototype.removeSlave = function (s) {
+  this.slaves.remove(s);
+}
+
 function get(nom, list) {
   // @returns index
   for (var i=0; i<list.length; i++) {
@@ -19,7 +43,7 @@ var groups = {};
 var groupstatus = {};
 var connections = [];
 io.sockets.on('connection', function (socket) {
-  var ip = socket.handshake.address.address;
+  var ip = socket.handshake.headers["x-forwarded-for"];//handshake.address.address;
   if (ip.indexOf('192.168') == 0) { //local IP
     ip = "lan";
   }
@@ -42,7 +66,7 @@ io.sockets.on('connection', function (socket) {
     }
   }
   var hashadfalse = false;
-  function checkAll() {console.log(groupstatus[ip].canPlay, groups[ip].length);
+  function checkAll() {
     if (groupstatus[ip].canPlay == groups[ip].length) {
       for (var i=0; i<groups[ip].length; i++) {
          groups[ip][i].emit('groupaction', {start:true});
@@ -92,7 +116,6 @@ io.sockets.on('connection', function (socket) {
     broadcast();
   });
   socket.on('load', function (what) {
-    console.log("STARTING",what);
     groupstatus[ip].started = true;
     groupstatus[ip].url = what.url;
     for (var i=0; i<groups[ip].length; i++) {
