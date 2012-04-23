@@ -36,7 +36,7 @@ remu.permAsk = function (user) {
 };
 remu.connect = function () {
 	if (localStorage.skipped) remu.openView('curgroup');
-	remu.socket = io.connect('http://remu.nodester.com',{port:80, rememberTransport: false});
+	remu.socket = io.connect('http://remu.nodester.com',{rememberTransport: false, port: 80});
 	remu.socket.on('groupstate', function (r) {
 		document.getElementById("connections").innerHTML = (r.number == 1) ? "is one connection" : "are "+r.number+" connections";
 	});
@@ -63,7 +63,7 @@ remu.connect = function () {
 				callback();
 			});
 			remu.audio.src = what.loadURL;
-			remu.audio.addEventListener("canplaythrough", function () {console.log("canplay");
+			remu.audio.addEventListener("canplaythrough", function () {
 				remu.socket.emit('canplay');
 			});
 			remu.audio.controls = "controls";
@@ -90,7 +90,6 @@ remu.connect = function () {
 	return true;
 			});
 		} else if (what.pause) {
-			//remu.audio.currentTime = what.curTime;
 			remu.audio.pause();
 		} else if (what.play) {
 			remu.audio.currentTime = what.curTime;
